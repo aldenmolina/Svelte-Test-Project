@@ -4,7 +4,8 @@
 
 <script>
     let toDoList = [{content: "Watch disney", editing: false, checked: true}];
-    
+    let textInput = "";
+
     /**
 	 * @param {number} index
 	 * @param {boolean} isEditing
@@ -12,14 +13,26 @@
     function handleEdit(index, isEditing) {
         toDoList[index].editing = isEditing;
     }
+
+    /**
+	 * @param {number} index
+	 */
+    function handleDelete(index) {
+        toDoList.splice(index, 1);
+        toDoList = toDoList;
+    }
+
+    function addToDo() {
+        toDoList = [...toDoList, {content: textInput, editing: false, checked: false}];
+    }
 </script>
 
 <div style="margin: 0 auto; padding: 20px; width: 700px">
     <h2 style="text-align: center;">ToDo List</h2>
     <p>Enter you ToDo here</p>
     <div style="display:flex">
-        <input type="text">
-        <button style="width: 200px;">Add</button>
+        <input type="text" bind:value={textInput}>
+        <button style="width: 200px;" on:click={addToDo}>Add</button>
     </div>
 </div>
 {#each toDoList as toDo, i}
@@ -36,7 +49,7 @@
         {:else}
             <button on:click={() => handleEdit(i, true)}>Edit</button>
         {/if}
-            <button>Delete</button>
+        <button on:click={() => handleDelete(i)}>Delete</button>
     </div>
 </div>
 {/each}
